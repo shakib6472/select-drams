@@ -3,7 +3,7 @@
 use Shuchkin\SimpleXLSX;
 // if form submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['warehouse_file'])) {
-    // Handle the uploaded file
+    // Handle the uploaded file 
     $file = $_FILES['warehouse_file'];
     //check is the file is a csv or xlsx
     if ($file['type'] !== 'text/csv' && $file['type'] !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {

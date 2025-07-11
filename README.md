@@ -220,6 +220,6 @@ If you encounter any issues or need support:
 *Screenshots will be added to showcase the admin interface, upload process, and product integration.*
 
 ---
-
+ 
 **Note**: This plugin requires WooCommerce to be installed and activated. Ensure you have proper backups before uploading large datasets.
  

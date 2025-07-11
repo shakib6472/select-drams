@@ -2,7 +2,7 @@
 
 namespace SelectDrams;
 
-class Main
+ class Main
 {
     public function __construct()
     {

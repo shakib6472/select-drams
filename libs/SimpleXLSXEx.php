@@ -6,7 +6,7 @@ namespace Shuchkin;
 
 use SimpleXMLElement;
 
-class SimpleXLSXEx
+ class SimpleXLSXEx
 {
     public static $IC = [
         0 => '000000',
