@@ -222,3 +222,4 @@ If you encounter any issues or need support:
 ---
 
 **Note**: This plugin requires WooCommerce to be installed and activated. Ensure you have proper backups before uploading large datasets.
+ 
