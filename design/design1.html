@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Picklist</title>
+  <style>
+    :root {
+      --primary-color: #F5C34A;
+      --accent-color: #F5C34A;
+      --border-color: #ddd;
+      --background-color: #f9f9f9;
+    }
+
+    @page {
+      size: A4;
+      margin: 2cm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'poppins', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background-color);
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .picklist-container {
+      max-width: 21cm;
+      margin: auto;
+      background: #fff;
+      padding: 2cm;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    header img {
+      max-height: 60px;
+    }
+
+    header .order-info {
+      text-align: right;
+    }
+
+    .customer-details {
+      margin-bottom: 2rem;
+    }
+
+    .customer-details h3 {
+      margin-bottom: 0.3rem;
+      color: var(--primary-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 0.7rem;
+      border: 1px solid var(--border-color);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: var(--accent-color);
+      color: white;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .picklist-container {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="picklist-container">
+    <header>
+      <div class="logo">
+        <img src="https://selectdrams.co.uk/wp-content/uploads/2020/07/logo.png" alt="Company Logo">
+      </div>
+      <div class="order-info">
+        <strong>Order ID:</strong> #123456<br>
+        <strong>Date:</strong> July 12, 2025
+      </div>
+    </header>
+
+    <div class="customer-details">
+      <h3>Customer Shipping Info</h3>
+      <p>
+        <strong>Name:</strong> John Doe<br>
+        <strong>Address:</strong> 123 Main Street, Dhaka 1212, Bangladesh<br>
+        <strong>Phone:</strong> +880 123456789<br>
+        <strong>Email:</strong> john@example.com
+      </p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Product</th>
+          <th>SKU</th>
+          <th>Quantity</th>
+          <th>Warehouse</th>
+          <th>Aisle</th>
+          <th>Bay</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Premium T-Shirt - Blue (L)</td>
+          <td>TSH-BL-L</td>
+          <td>2</td>
+          <td>WH-A</td>
+          <td>Aisle 3</td>
+          <td>Bay 5</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Running Shoes</td>
+          <td>SHOES-RUN-9</td>
+          <td>1</td>
+          <td>WH-B</td>
+          <td>Aisle 1</td>
+          <td>Bay 2</td>
+        </tr>
+        <!-- Repeat as needed -->
+      </tbody>
+    </table>
+
+    <div class="footer-note">
+      Picked by: ____________________ &nbsp;&nbsp;&nbsp; Date: _____________
+    </div>
+  </div>
+</body>
+</html>
