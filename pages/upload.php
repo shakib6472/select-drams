@@ -1,6 +1,6 @@
 <?php
 // Upload page content
-use Shuchkin\SimpleXLSX;
+use Shuchkin\SimpleXLSX; 
 // if form submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['warehouse_file'])) {
     // Handle the uploaded file 
