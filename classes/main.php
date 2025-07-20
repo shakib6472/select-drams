@@ -2,7 +2,7 @@
 
 namespace SelectDrams;
 
- class Main
+class Main
 {
     public function __construct()
     {
@@ -12,9 +12,14 @@ namespace SelectDrams;
         add_action('init', [$this, 'activate']);
         add_action('admin_menu', [$this, 'admin_menu']);
         add_action('woocommerce_product_data_tabs', [$this, 'warehouse_product_data_tab']);
-        add_action('woocommerce_product_data_panels', [$this, 'add_aisle_and_bay_fields']); 
+        add_action('woocommerce_product_data_panels', [$this, 'add_aisle_and_bay_fields']);
         add_action('woocommerce_process_product_meta', [$this, 'save_aisle_and_bay_meta']);
+        add_action('add_meta_boxes', [$this, 'add_select_drams_picklist_box']);
+        add_action('wp_ajax_print_picklist', [$this, 'handle_print_picklist']); 
     }
+
+ 
+
 
     public function admin_style_script()
     {
@@ -56,7 +61,6 @@ namespace SelectDrams;
     {
         // include the main page content
         include SELECT_DRAMS_PLUGIN_DIR . 'pages/admin.php';
-
     }
 
     public function select_drams_upload_page()
@@ -72,7 +76,7 @@ namespace SelectDrams;
             'target' => 'warehouse_product_data',
             'class' => array(),
             'priority' => 60,
-            
+
         );
         return $tabs;
     }
@@ -118,7 +122,57 @@ namespace SelectDrams;
         if (isset($_POST['_bay'])) {
             update_post_meta($post_id, '_bay', sanitize_text_field($_POST['_bay']));
         }
-
     }
 
+
+    public function add_select_drams_picklist_box()
+    {
+        add_meta_box(
+            'select_drams_picklist',              // ID
+            'Select Drams Picklist',              // Title
+            [$this, 'render_select_drams_picklist_box'],   // Callback
+            'shop_order',                         // Post type
+            'side',                               // Context ('side', 'normal', 'advanced')
+            'default'                             // Priority
+        );
+    }
+
+    public function render_select_drams_picklist_box($post)
+    {
+        ?>
+        <div style="text-align: center;">
+            <button type="button" class="button button-primary print-picklist-btn"
+                data-order-id="<?php echo esc_attr($post->ID); ?>">
+                Print Picklist
+            </button>
+        </div>
+        <iframe id="print_picklist_iframe" style="display:none;"></iframe>
+        <?php
+    }
+
+
+
+
+    public function handle_print_picklist()
+    {
+        $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+
+        if (!$order_id) {
+            wp_die('Invalid Order ID');
+        }
+
+        // Optionally load order here if needed
+        // $order = wc_get_order($order_id);
+
+        // Path to the template file
+        $template_path = SELECT_DRAMS_PLUGIN_DIR . '/print-picklist-template.php';
+
+        if (file_exists($template_path)) {
+            include $template_path;
+        } else {
+            error_log('Template file not found.');
+        }
+
+        exit;
+    }
 }
