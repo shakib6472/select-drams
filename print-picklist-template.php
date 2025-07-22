@@ -247,6 +247,9 @@ $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_la
 				</thead>
 				<tbody>
 					<?php
+
+					// making all items an array
+					// This is to ensure that we can sort them by aisle and bay later
 					$items = array();
 					foreach ($order->get_items() as $item_id => $item) {
 						$product = $item->get_product();
