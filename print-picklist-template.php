@@ -14,7 +14,7 @@ function print_if_not_empty($value)
 }
 
 
-$order = wc_get_order($order_id); 
+$order = wc_get_order($order_id);
 // Customer Name
 $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
 ?>
@@ -194,15 +194,15 @@ $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_la
 			<div class="box">
 				<h2>Shipping Address</h2>
 				<p class="address">
-				<?php 
-				print_if_not_empty($customer_name);
-				print_if_not_empty($order->get_shipping_company());
-				print_if_not_empty(trim($order->get_shipping_address_1() . ' ' . $order->get_shipping_address_2()));
-				print_if_not_empty($order->get_shipping_state());
-				print_if_not_empty($order->get_shipping_city());
-				print_if_not_empty($order->get_shipping_postcode());
-				print_if_not_empty($order->get_shipping_country());
-				?>
+					<?php
+					print_if_not_empty($customer_name);
+					print_if_not_empty($order->get_shipping_company());
+					print_if_not_empty(trim($order->get_shipping_address_1() . ' ' . $order->get_shipping_address_2()));
+					print_if_not_empty($order->get_shipping_state());
+					print_if_not_empty($order->get_shipping_city());
+					print_if_not_empty($order->get_shipping_postcode());
+					print_if_not_empty($order->get_shipping_country());
+					?>
 				</p>
 			</div>
 		</section>
@@ -246,23 +246,52 @@ $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_la
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($order->get_items() as $item_id => $item):  
-						$product = $item->get_product();   ?>  
-					<tr>
-						<td><?php echo esc_html($item->get_quantity()); ?></td>
-						<td><?php echo esc_html($item->get_name()); ?></td>
-						<td>
-							<div class="details">
-								<li class="light-text">SKU: <strong><?php echo esc_html($product->get_sku()); ?></strong></li>
-								<li class="light-text">Aisle: <strong><?php echo esc_html(get_post_meta($item->get_product_id(), '_aisle', true)); ?></strong></li>
-								<li class="light-text">Bay: <strong><?php echo esc_html(get_post_meta($item->get_product_id(), '_bay', true)); ?></strong></li>
-							</div>
-						</td>
-						<td><?php echo wc_price($item->get_total() / $item->get_quantity()); ?></td>
-						<td><?php echo wc_price($item->get_total()); ?></td>
-					</tr>
+					<?php
+					$items = array();
+					foreach ($order->get_items() as $item_id => $item) {
+						$product = $item->get_product();
+						$aisle = get_post_meta($item->get_product_id(), '_aisle', true);
+						$bay = get_post_meta($item->get_product_id(), '_bay', true);
+
+						$items[] = array(
+							'item_id' => $item_id,
+							'item' => $item,
+							'product' => $product,
+							'aisle' => $aisle,
+							'bay' => $bay,
+						);
+					}
+
+					// Now sorting the items by aisle and bay
+					usort($items, function ($a, $b) {
+						$aisleA = strtolower($a['aisle']);
+						$aisleB = strtolower($b['aisle']);
+						if ($aisleA === $aisleB) {
+							return intval($a['bay']) <=> intval($b['bay']);
+						}
+						return $aisleA <=> $aisleB;
+					});
+					foreach ($items as $data):
+						$item = $data['item'];
+						$product = $data['product']; ?>
+						<tr>
+							<td><?php echo esc_html($item->get_quantity()); ?></td>
+							<td><?php echo esc_html($item->get_name()); ?></td>
+							<td>
+								<div class="details">
+									<li class="light-text">SKU:<strong><?php echo esc_html($product->get_sku()); ?></strong>
+									</li>
+									<li class="light-text">Aisle:<strong><?php echo esc_html($data['aisle']); ?></strong>
+									</li>
+									<li class="light-text">Bay:<strong><?php echo esc_html($data['bay']); ?></strong>
+									</li>
+								</div>
+							</td>
+							<td><?php echo wc_price($item->get_total() / $item->get_quantity()); ?></td>
+							<td><?php echo wc_price($item->get_total()); ?></td>
+						</tr>
 					<?php endforeach; ?>
-					
+
 				</tbody>
 			</table>
 			<div class="spacer"></div>
@@ -299,4 +328,3 @@ $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_la
 		</section>
 	</div>
 </body>
- 
