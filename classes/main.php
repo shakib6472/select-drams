@@ -6,8 +6,7 @@ class Main
 {
     public function __construct()
     {
-        // Initialization code here
-        error_log('Select Drams plugin initialized.');
+        // Initialization code here 
         add_action('admin_enqueue_scripts', [$this, 'admin_style_script']);
         add_action('init', [$this, 'activate']);
         add_action('admin_menu', [$this, 'admin_menu']);
@@ -15,10 +14,14 @@ class Main
         add_action('woocommerce_product_data_panels', [$this, 'add_aisle_and_bay_fields']);
         add_action('woocommerce_process_product_meta', [$this, 'save_aisle_and_bay_meta']);
         add_action('add_meta_boxes', [$this, 'add_select_drams_picklist_box']);
-        add_action('wp_ajax_print_picklist', [$this, 'handle_print_picklist']); 
+        add_action('wp_ajax_print_picklist', [$this, 'handle_print_picklist']);
+        add_filter('manage_edit-shop_order_columns', [$this, 'add_print_picklist_column']);
+        add_action('manage_shop_order_posts_custom_column', [$this, 'render_print_picklist_button'], 10, 2);
+
+
     }
 
- 
+
 
 
     public function admin_style_script()
@@ -150,9 +153,6 @@ class Main
         <?php
     }
 
-
-
-
     public function handle_print_picklist()
     {
         $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
@@ -161,18 +161,36 @@ class Main
             wp_die('Invalid Order ID');
         }
 
-        // Optionally load order here if needed
-        // $order = wc_get_order($order_id);
-
         // Path to the template file
         $template_path = SELECT_DRAMS_PLUGIN_DIR . '/print-picklist-template.php';
 
         if (file_exists($template_path)) {
             include $template_path;
-        } else {
-            error_log('Template file not found.');
-        }
+        }  
 
         exit;
     }
+
+    public function add_print_picklist_column($columns)
+    {
+        $columns['print_picklist'] = 'Print Picklist';
+        return $columns;
+    }
+
+    public function render_print_picklist_button($column, $post_id)
+    {
+        if ($column === 'print_picklist') {
+            ?>
+            <div style="text-align: center;">
+                <button type="button" class="button button-primary print-picklist-btn"
+                    data-order-id="<?php echo esc_attr($post_id); ?>">
+                    Print Picklist
+                </button>
+                <iframe id="print_picklist_iframe_<?php echo esc_attr($post_id); ?>" style="display:none;"></iframe>
+            </div>
+            <?php
+        }
+    }
+
+
 }
