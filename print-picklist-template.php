@@ -238,8 +238,8 @@ $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_la
 			<table class="products-table">
 				<thead>
 					<tr>
-						<th width="10%">Quantity</th>
 						<th width="35%">Product</th>
+						<th width="10%">Quantity</th>
 						<th width="35%">Locator</th>
 						<th width="10%">Price</th>
 						<th width="10%">Total</th>
@@ -278,8 +278,8 @@ $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_la
 						$item = $data['item'];
 						$product = $data['product']; ?>
 						<tr>
-							<td><?php echo esc_html($item->get_quantity()); ?></td>
 							<td><?php echo esc_html($item->get_name()); ?></td>
+							<td><?php echo esc_html($item->get_quantity()); ?></td>
 							<td>
 								<div class="details">
 									<li class="light-text">SKU:<strong><?php echo esc_html($product->get_sku()); ?></strong>
