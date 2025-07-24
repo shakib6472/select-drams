@@ -236,7 +236,7 @@ $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_la
 		</section>
 		<section class="products-area">
 			<table class="products-table">
-				<thead>
+				<thead> 
 					<tr>
 						<th width="35%">Product</th>
 						<th width="10%">Quantity</th>
