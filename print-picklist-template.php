@@ -241,7 +241,7 @@ $customer_name = $order->get_billing_first_name() . ' ' . $order->get_billing_la
 						<th width="35%">Product</th>
 						<th width="10%">Quantity</th>
 						<th width="35%">Locator</th>
-						<th width="10%">Price</th>
+						<th width="10%">Price</th> 
 						<th width="10%">Total</th>
 					</tr>
 				</thead>
